@@ -107,10 +107,8 @@ function paintPlayer(playerState, size, colour) {
 }
 
 function handleUpdatePlayers(payload){
-	console.log('updatePlayers');
 	var canvas = document.getElementById('canvas');
 	if (canvas.getContext) {
-		console.log('canvas Context found');
 		
 		var ctx = canvas.getContext('2d');
 		ctx.strokeStyle = "red";
@@ -118,7 +116,7 @@ function handleUpdatePlayers(payload){
 		ctx.font = 'italic 32px sans-serif';
 		var canvas_text = "Players:";
 		var text_vert_pos = 50;
-		ctx.strokeText(canvas_text, 10, text_vert_pos); 
+		ctx.strokeText(canvas_text, 150, text_vert_pos); 
 		for (player_idx in payload){
 			text_vert_pos = text_vert_pos + 40;
 			canvas_text = "user: "+String(player_idx);
