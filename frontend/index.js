@@ -107,6 +107,7 @@ function paintPlayer(playerState, size, colour) {
 }
 
 function handleUpdatePlayers(payload){
+	console.log('updatePlayers');
 	var canvas = document.getElementById('canvas');
 	if (canvas.getContext) {
 		var ctx = canvas.getContext('2d');
