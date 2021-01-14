@@ -109,6 +109,8 @@ function handleUpdatePlayers(payload){
 	var canvas = document.getElementById('canvas');
 	if (canvas.getContext) {
 		var ctx = canvas.getContext('2d');
+		ctx.strokeStyle = "red";
+		ctx.lineWidth = "1.5";  
 		ctx.font = 'italic 32px sans-serif';
 		var canvas_text = "Players:";
 		 
@@ -116,7 +118,7 @@ function handleUpdatePlayers(payload){
 			console.log(player_idx);
 			canvas_text = canvas_text +"<br>user: "+String(player_idx);
 		}	
-		ctx.fillText(canvas_text, 10, 50); 
+		ctx.strokeText(canvas_text, 10, 50); 
 	}
 
 	
