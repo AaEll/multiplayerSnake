@@ -42,10 +42,9 @@ io.on('connection', client => {
     client.join(roomName);
     client.id = user_id;
 	
-	console.log("entered room:" +room);
+	console.log("entered room:" +roomName);
 	
-	io.sockets.in(roomName)
-    .emit('updatePlayers', Object.keys(allUsers));
+	io.sockets.in(roomName).emit('updatePlayers', Object.keys(allUsers));
     
     //startGameInterval(roomName);
   }
@@ -100,14 +99,14 @@ function startGameInterval(roomName) {
   }, 1000 / FRAME_RATE);
 }
 
-function emitGameState(room, gameState) {
+function emitGameState(roomName, gameState) {
   // Send this event to everyone in the room.
-  io.sockets.in(room)
+  io.sockets.in(roomName)
     .emit('gameState', JSON.stringify(gameState));
 }
 
-function emitGameOver(room, winner) {
-  io.sockets.in(room)
+function emitGameOver(roomName, winner) {
+  io.sockets.in(roomName)
     .emit('gameOver', JSON.stringify({ winner }));
 }
 
