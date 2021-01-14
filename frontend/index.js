@@ -116,11 +116,12 @@ function handleUpdatePlayers(payload){
 		ctx.font = 'italic 32px sans-serif';
 		var canvas_text = "Players:";
 		var text_vert_pos = 50;
-		ctx.strokeText(canvas_text, 150, text_vert_pos); 
+		var text_hor_pos = 150;
+		ctx.strokeText(canvas_text, text_hor_pos, text_vert_pos); 
 		for (player_idx in payload){
 			text_vert_pos = text_vert_pos + 40;
 			canvas_text = "user: "+String(player_idx);
-			ctx.strokeText(canvas_text, 10, text_vert_pos); 
+			ctx.strokeText(canvas_text, text_hor_pos, text_vert_pos); 
 		}	
 		
 		
