@@ -109,7 +109,8 @@ function handleUpdatePlayers(payload){
 	var player_names = document.getElementById("playersDisplay");
 
 	for (player_id in payload){
-		var player_text = document.createTextNode(String(player_id))		
+		console.log(player_id)
+		var player_text = document.createTextNode("user: "+String(player_id))		
 		
 		player_names.appendChild(player_text);
 	}	
