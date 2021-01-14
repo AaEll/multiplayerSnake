@@ -106,14 +106,20 @@ function paintPlayer(playerState, size, colour) {
 }
 
 function handleUpdatePlayers(payload){
-	var player_names = document.getElementById("playersDisplay");
+	var canvas = document.getElementById(canvas);
+	if (canvas.getContext) {
+		var ctx = canvas.getContext('2d');
+		ctx.font = 'italic 32px sans-serif';
+		var canvas_text = "Players:";
+		 
+		for (player_idx in payload){
+			console.log(player_idx)
+			canvas_text = canvas_text +"<br>user: "+String(player_idx))		
+		}	
+		ctx.fillText(canvas_text, 10, 50); 
+	}
 
-	for (player_id in payload){
-		console.log(player_id)
-		var player_text = document.createTextNode("user: "+String(player_id))		
-		
-		player_names.appendChild(player_text);
-	}	
+	
 }
 
 function handleInit(number) {
