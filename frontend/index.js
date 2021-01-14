@@ -33,7 +33,7 @@ function newGame() {
 function joinGame() {
   const code = gameCodeInput.value;
   let payload = {'room_code':code, 'user_id' : gen_uid(5) };
-  socket.emit('joinGame', {room_code: code , user_id: });
+  socket.emit('joinGame',payload);
   init();
 }
 
