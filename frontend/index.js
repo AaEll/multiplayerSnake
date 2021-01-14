@@ -113,8 +113,8 @@ function handleUpdatePlayers(payload){
 		var canvas_text = "Players:";
 		 
 		for (player_idx in payload){
-			console.log(player_idx)
-			canvas_text = canvas_text +"<br>user: "+String(player_idx))		
+			console.log(player_idx);
+			canvas_text = canvas_text +"<br>user: "+String(player_idx);
 		}	
 		ctx.fillText(canvas_text, 10, 50); 
 	}
