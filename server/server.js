@@ -21,6 +21,7 @@ io.on('connection', client => {
     let allUsers;
     if (room) {
       allUsers = room.sockets;
+	  
     }
 
     let numClients = 0;
@@ -40,6 +41,8 @@ io.on('connection', client => {
 
     client.join(roomName);
     client.id = user_id;
+	
+	console.log("entered room:" +room);
 	
 	io.sockets.in(room)
     .emit('updatePlayers', Object.keys(allUsers));
