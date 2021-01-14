@@ -45,6 +45,8 @@ io.on('connection', client => {
 	console.log("entered room:" +roomName);
 	
 	io.sockets.in(roomName).emit('updatePlayers', Object.keys(allUsers));
+	
+	io.sockets.in(roomName).emit('updatePlayers', Object.keys(allUsers));
     
     //startGameInterval(roomName);
   }

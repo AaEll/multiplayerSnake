@@ -11,6 +11,7 @@ socket.on('gameCode', handleGameCode);
 socket.on('updatePlayers', handleUpdatePlayers);
 socket.on('unknownCode', handleUnknownCode);
 socket.on('tooManyPlayers', handleTooManyPlayers);
+socket.on('testEvent', handleTestEvent);
 
 const gameScreen = document.getElementById('gameScreen');
 const initialScreen = document.getElementById('initialScreen');
@@ -160,6 +161,10 @@ function handleGameCode(gameCode) {
 function handleUnknownCode() {
   reset();
   alert('Unknown Game Code')
+}
+
+function handleTestEvent(message) {
+  alert(message)
 }
 
 function handleTooManyPlayers() {
