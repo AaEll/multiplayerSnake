@@ -110,6 +110,8 @@ function handleUpdatePlayers(payload){
 	console.log('updatePlayers');
 	var canvas = document.getElementById('canvas');
 	if (canvas.getContext) {
+		console.log('canvas Context found');
+		
 		var ctx = canvas.getContext('2d');
 		ctx.strokeStyle = "red";
 		ctx.lineWidth = "1.5";  
@@ -122,6 +124,7 @@ function handleUpdatePlayers(payload){
 			canvas_text = "user: "+String(player_idx);
 			ctx.strokeText(canvas_text, 10, text_vert_pos); 
 		}	
+		
 		
 	}
 
