@@ -41,9 +41,7 @@ io.on('connection', client => {
 
     client.join(roomName);
     client.id = user_id;
-	
-	console.log("entered room:" +roomName);
-	
+		
 	//io.sockets.in(roomName).emit('testEvent', "message : 1");
 	
 	io.sockets.in(roomName).emit('updatePlayers', Object.keys(allUsers));
