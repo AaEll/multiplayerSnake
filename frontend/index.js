@@ -32,6 +32,7 @@ function newGame() {
 
 function joinGame() {
   const code = gameCodeInput.value;
+  let payload = {'room_code':code, 'user_id' : gen_uid(5) };
   socket.emit('joinGame', {room_code: code , user_id: });
   init();
 }
@@ -161,3 +162,20 @@ function reset() {
   initialScreen.style.display = "block";
   gameScreen.style.display = "none";
 }
+
+function gen_uid(len) {
+        var buf = [],
+            chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+            charlen = chars.length,
+            length = len || 32;
+            
+        for (var i = 0; i < length; i++) {
+            buf[i] = chars.charAt(Math.floor(Math.random() * charlen));
+        }
+        
+        return buf.join('');
+    }
+
+
+
+ 
