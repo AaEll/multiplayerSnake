@@ -10,9 +10,12 @@ io.on('connection', client => {
 
   client.on('keydown', handleKeydown);
   client.on('newGame', handleNewGame);
+  client.on('startGame', handleStartGame);
   client.on('joinGame', handleJoinGame);
 
-  function handleJoinGame(roomName) {
+  function handleJoinGame(payload) {
+	const roomName = payload['room_code'];
+	const user_id = payload['user_id'];
     const room = io.sockets.adapter.rooms[roomName];
 
     let allUsers;
@@ -28,7 +31,7 @@ io.on('connection', client => {
     if (numClients === 0) {
       client.emit('unknownCode');
       return;
-    } else if (numClients > 1) {
+    } else if (numClients > 10) {
       client.emit('tooManyPlayers');
       return;
     }
@@ -36,12 +39,16 @@ io.on('connection', client => {
     clientRooms[client.id] = roomName;
 
     client.join(roomName);
-    client.number = 2;
-    client.emit('init', 2);
+    client.id = user_id;
+    client.emit('updatePlayers', Object.keys(allUsers));
     
+    //startGameInterval(roomName);
+  }
+  
+  function handleStartGame(payload) {    
     startGameInterval(roomName);
   }
-
+  
   function handleNewGame() {
     let roomName = makeid(5);
     clientRooms[client.id] = roomName;
@@ -53,7 +60,7 @@ io.on('connection', client => {
     client.number = 1;
     client.emit('init', 1);
   }
-
+  
   function handleKeydown(keyCode) {
     const roomName = clientRooms[client.id];
     if (!roomName) {

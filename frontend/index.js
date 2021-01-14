@@ -8,6 +8,7 @@ socket.on('init', handleInit);
 socket.on('gameState', handleGameState);
 socket.on('gameOver', handleGameOver);
 socket.on('gameCode', handleGameCode);
+socket.on('updatePlayers', handleUpdatePlayers);
 socket.on('unknownCode', handleUnknownCode);
 socket.on('tooManyPlayers', handleTooManyPlayers);
 
@@ -15,11 +16,13 @@ const gameScreen = document.getElementById('gameScreen');
 const initialScreen = document.getElementById('initialScreen');
 const newGameBtn = document.getElementById('newGameButton');
 const joinGameBtn = document.getElementById('joinGameButton');
+const startGameBtn = document.getElementById('startGameButton');
 const gameCodeInput = document.getElementById('gameCodeInput');
 const gameCodeDisplay = document.getElementById('gameCodeDisplay');
 
 newGameBtn.addEventListener('click', newGame);
 joinGameBtn.addEventListener('click', joinGame);
+startGameBtn.addEventListener('click', startGame);
 
 
 function newGame() {
@@ -29,7 +32,13 @@ function newGame() {
 
 function joinGame() {
   const code = gameCodeInput.value;
-  socket.emit('joinGame', code);
+  socket.emit('joinGame', {room_code: code , user_id: });
+  init();
+}
+
+function startGame() {
+  const code = gameCodeInput.value;
+  socket.emit('startGame', code);
   init();
 }
 
@@ -59,6 +68,16 @@ function keydown(e) {
   socket.emit('keydown', e.keyCode);
 }
 
+function paintLobby(state) {
+  ctx.fillStyle = BG_COLOUR;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  for (player in state.players){
+	  paintLobbyPlayer(player)
+  }
+}
+
+
 function paintGame(state) {
   ctx.fillStyle = BG_COLOUR;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -76,11 +95,23 @@ function paintGame(state) {
 
 function paintPlayer(playerState, size, colour) {
   const snake = playerState.snake;
+  
+  
 
   ctx.fillStyle = colour;
   for (let cell of snake) {
     ctx.fillRect(cell.x * size, cell.y * size, size, size);
   }
+}
+
+function handleUpdatePlayers(payload){
+	var player_names = document.getElementById("playersDisplay");
+
+	for (player_id in payload){
+		var player_text = document.createTextNode(String(player_id))		
+		
+		player_names.appendChild(player_names);
+	}	
 }
 
 function handleInit(number) {
