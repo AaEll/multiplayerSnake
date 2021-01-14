@@ -106,7 +106,7 @@ function paintPlayer(playerState, size, colour) {
 }
 
 function handleUpdatePlayers(payload){
-	var canvas = document.getElementById(canvas);
+	var canvas = document.getElementById('canvas');
 	if (canvas.getContext) {
 		var ctx = canvas.getContext('2d');
 		ctx.font = 'italic 32px sans-serif';
