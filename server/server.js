@@ -40,7 +40,9 @@ io.on('connection', client => {
 
     client.join(roomName);
     client.id = user_id;
-    client.emit('updatePlayers', Object.keys(allUsers));
+	
+	io.sockets.in(room)
+    .emit('updatePlayers', Object.keys(allUsers));
     
     //startGameInterval(roomName);
   }
