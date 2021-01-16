@@ -33,7 +33,7 @@ function newGame() {
 
 function joinGame() {
   const code = gameCodeInput.value;
-  let payload = {'room_code':code, 'user_id' : gen_uid(5) };
+  let payload = {'room_code':code, 'user_id' : anonUserId};
   socket.emit('joinGame',payload);
   init();
 }
@@ -44,11 +44,12 @@ function startGame() {
   init();
 }
 
-let canvas, ctx;
+let canvas, ctx, anonUserId;
 let playerNumber;
 let gameActive = false;
 
 function init() {
+  anonUserId = genAnonUserId(15);
   initialScreen.style.display = "none";
   gameScreen.style.display = "block";
 
@@ -61,11 +62,16 @@ function init() {
 
   ctx.fillStyle = BG_COLOUR;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.strokeStyle = "red";
+  ctx.lineWidth = "1.5";  
+  ctx.font = 'italic 32px sans-serif';
 
   document.addEventListener('keydown', keydown);
   gameActive = true;
+  
+  
 }
-
+    
 function keydown(e) {
   socket.emit('keydown', e.keyCode);
 }
@@ -73,61 +79,67 @@ function keydown(e) {
 function paintLobby(state) {
   ctx.fillStyle = BG_COLOUR;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  
+
   for (player in state.players){
-	  paintLobbyPlayer(player)
+    paintLobbyPlayer(player)
   }
+
+  var canvas_text = "Players:";
+  var text_vert_pos = 50;
+  var text_hor_pos = 150;
+  ctx.strokeText(canvas_text, text_hor_pos, text_vert_pos); 
+  for (player_idx in payload){
+    text_vert_pos = text_vert_pos + 40;
+    canvas_text = "user: "+String(player_idx);
+    ctx.strokeText(canvas_text, text_hor_pos, text_vert_pos); 
+  }  
+  
 }
 
 
 function paintGame(state) {
+  
   ctx.fillStyle = BG_COLOUR;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  const food = state.food;
-  const gridsize = state.gridsize;
-  const size = canvas.width / gridsize;
-
-  ctx.fillStyle = FOOD_COLOUR;
-  ctx.fillRect(food.x * size, food.y * size, size, size);
-
-  paintPlayer(state.players[0], size, SNAKE_COLOUR);
-  paintPlayer(state.players[1], size, 'red');
+  
+  const gridwidth = state.gridwidth;
+  const gridheight = state.gridheight;
+  const size = canvas.width / gridwidth;
+  
+  var i,ii; 
+  for (i = 0; i < gridwidth ; i++){
+    for (ii = 0; ii < gridheight ; ii++){
+      paintSquare(i, ii, size, state[playerNumber]['player_view'][i][ii])
+    }
+  }
+  
 }
 
-function paintPlayer(playerState, size, colour) {
+function paintSquare(posHorz, posVert, size, fillId) {
   const snake = playerState.snake;
+  var color = 'black';
   
-  
-
-  ctx.fillStyle = colour;
-  for (let cell of snake) {
-    ctx.fillRect(cell.x * size, cell.y * size, size, size);
+  switch (fillId) {
+    case 37: { //
+      color = 'red';
+    }
+    case 38: { // 
+      color = 'blue';
+    }
+    case 39: { // 
+      color = 'green';
+    }
+    case 40: { // up
+      color = 'white';
+    }
   }
+
+  ctx.fillStyle = color;
+  ctx.fillRect(posHorz * size, posVert * size, size, size);
 }
 
 function handleUpdatePlayers(payload){
-	var canvas = document.getElementById('canvas');
-	if (canvas.getContext) {
-		
-		var ctx = canvas.getContext('2d');
-		ctx.strokeStyle = "red";
-		ctx.lineWidth = "1.5";  
-		ctx.font = 'italic 32px sans-serif';
-		var canvas_text = "Players:";
-		var text_vert_pos = 50;
-		var text_hor_pos = 150;
-		ctx.strokeText(canvas_text, text_hor_pos, text_vert_pos); 
-		for (player_idx in payload){
-			text_vert_pos = text_vert_pos + 40;
-			canvas_text = "user: "+String(player_idx);
-			ctx.strokeText(canvas_text, text_hor_pos, text_vert_pos); 
-		}	
-		
-		
-	}
-
-	
+  paintLobby(payload);  
 }
 
 function handleInit(number) {
@@ -182,18 +194,18 @@ function reset() {
   gameScreen.style.display = "none";
 }
 
-function gen_uid(len) {
-        var buf = [],
-            chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
-            charlen = chars.length,
-            length = len || 32;
-            
-        for (var i = 0; i < length; i++) {
-            buf[i] = chars.charAt(Math.floor(Math.random() * charlen));
-        }
-        
-        return buf.join('');
-    }
+function genAnonUserId(len) {
+  var buf = [],
+    chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+    charlen = chars.length,
+    length = len || 32;
+    
+  for (var i = 0; i < length; i++) {
+    buf[i] = chars.charAt(Math.floor(Math.random() * charlen));
+  }
+  
+  return buf.join('');
+}
 
 
 
