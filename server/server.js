@@ -14,21 +14,20 @@ io.on('connection', client => {
   client.on('joinGame', handleJoinGame);
 
   function handleJoinGame(payload) {
-	const roomName = payload['room_code'];
-	const user_id = payload['user_id'];
+    const roomName = payload['room_code'];
+    const user_id = payload['user_id'];
     const room = io.sockets.adapter.rooms[roomName];
-
+    
     let allUsers;
     if (room) {
       allUsers = room.sockets;
-	  
     }
-
+    
     let numClients = 0;
     if (allUsers) {
       numClients = Object.keys(allUsers).length;
     }
-
+    
     if (numClients === 0) {
       client.emit('unknownCode');
       return;
@@ -36,30 +35,40 @@ io.on('connection', client => {
       client.emit('tooManyPlayers');
       return;
     }
-
+    
     clientRooms[client.id] = roomName;
-
+    
     client.join(roomName);
-    client.id = user_id;
-		
-	//io.sockets.in(roomName).emit('testEvent', "message : 1");
-	
-	io.sockets.in(roomName).emit('updatePlayers', Object.keys(allUsers));
+    
+    //io.sockets.in(roomName).emit('testEvent', "message : 1");
+    
+    client.emit('init', numClients);
+    io.sockets.in(roomName).emit('updatePlayers', Object.keys(allUsers));
     
     //startGameInterval(roomName);
   }
   
-  function handleStartGame(payload) {    
-    startGameInterval(roomName);
+  function handleStartGame(payload) {
+    const roomName = payload['room_code'];
+    const room = io.sockets.adapter.rooms[roomName];
+    if (room) {
+      allUsers = room.sockets;
+    }
+    
+    let numClients = 0;
+    if (allUsers) {
+      numClients = Object.keys(allUsers).length;
+      state[roomName] = initGame(numClients);
+      startGameInterval(roomName);
+	}
+
   }
   
   function handleNewGame() {
     let roomName = makeid(5);
     clientRooms[client.id] = roomName;
     client.emit('gameCode', roomName);
-
-    state[roomName] = initGame();
-
+        
     client.join(roomName);
     client.number = 1;
     client.emit('init', 1);
@@ -77,15 +86,14 @@ io.on('connection', client => {
       return;
     }
 
-    const vel = getUpdatedVelocity(keyCode);
-
-    if (vel) {
-      state[roomName].players[client.number - 1].vel = vel;
+    const action = updateActionQueued(keyCode,state[roomName].players[client.number - 1].action);
+    if (action) {
+      state[roomName].players[client.number - 1].action = action;
     }
   }
 });
 
-function startGameInterval(roomName) {
+function startGameInterval(roomName, numClients) {
   const intervalId = setInterval(() => {
     const winner = gameLoop(state[roomName]);
     
@@ -96,7 +104,7 @@ function startGameInterval(roomName) {
       state[roomName] = null;
       clearInterval(intervalId);
     }
-  }, 1000 / FRAME_RATE);
+  }, 811 ); // 811 milliseconds corresponds to 74bpm, common for waltz
 }
 
 function emitGameState(roomName, gameState) {
