@@ -11,6 +11,7 @@ module.exports = {
 function initGame(numClients) {
   const state = createGameState(numClients)
   return state;
+}
 
 function createGameState(numClients) {
   
