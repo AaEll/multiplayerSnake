@@ -101,10 +101,6 @@ function paintGame(state) {
   const gridwidth = state.gridwidth;
   const gridheight = state.gridheight;
   const size = canvas.width / gridwidth;
-  console.log(11 < gridwidth);
-  console.log(1 < gridwidth);
-  console.log(playerNumber);
-  console.log(state['clients'][1]['playerView']);
   var i,ii; 
   for (i = 0; i < gridwidth ; i++){
     for (ii = 0; ii < gridheight ; ii++){
@@ -114,20 +110,19 @@ function paintGame(state) {
 }
 
 function paintSquare(posHorz, posVert, size, fillId) {
-  const snake = playerState.snake;
   var color = 'black';
   
   switch (fillId) {
-    case '37': { //
+    case 37: { //
       color = 'red';
     }
-    case '38': { // 
+    case 38: { // 
       color = 'blue';
     }
-    case '39': { // 
+    case 39: { // 
       color = 'green';
     }
-    case '40': { // up
+    case 40: { // up
       color = 'white';
     }
   }
