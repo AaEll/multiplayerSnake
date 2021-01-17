@@ -76,13 +76,9 @@ function keydown(e) {
   socket.emit('keydown', e.keyCode);
 }
 
-function paintLobby(state) {
+function paintLobby(payload) {
   ctx.fillStyle = BG_COLOUR;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  for (player in state.players){
-    paintLobbyPlayer(player)
-  }
 
   var canvas_text = "Players:";
   var text_vert_pos = 50;
@@ -109,7 +105,7 @@ function paintGame(state) {
   var i,ii; 
   for (i = 0; i < gridwidth ; i++){
     for (ii = 0; ii < gridheight ; ii++){
-      paintSquare(i, ii, size, state[playerNumber]['player_view'][i][ii])
+      paintSquare(i, ii, size, state['clients'][playerNumber]['player_view'][i][ii]['fillId'])
     }
   }
   

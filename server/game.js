@@ -11,18 +11,26 @@ module.exports = {
 function initGame(numClients) {
   const state = createGameState(numClients)
   return state;
-}
 
 function createGameState(numClients) {
   
-  var state = {'clients' : {} , blablabla};
+  var state = {clients : {} , world : {}};
   
-  for (var i=0 ; i < numClients; i++){
-    state['clients'][i] = {blablabla}
-  }	  
+  state['world'] = initWorld();
+   
+  var i,ii,playerView;
+  for (i=1 ; i <= numClients; i++){
+    state['clients'][i] = {playerView : {}, playerPos : {} };
+    state['clients'][i]['playerPos']['x'] = 0;
+    state['clients'][i]['playerPos']['y'] = i;
+    
+    playerView =  getPlayerView(state['world'],state['clients'][i]['playerPos']);
+    state['clients'][i]['playerView'] = playerView;
+  }
   
   return state;
 }
+
 
 function gameLoop(state) {
   // update game state
@@ -33,7 +41,7 @@ function gameLoop(state) {
     return;
   }
   
-  
+  return false 
 }
 
 function updateActionQueued(keyCode, currentActionQueued) {
@@ -71,4 +79,46 @@ function updateActionQueued(keyCode, currentActionQueued) {
       }
     }
   }
+}
+
+function initWorld(){
+  var state = {};
+  
+  var i,ii;
+  for (i=0 ; i< 10; i++){
+    state[i] = {};
+    for (ii = 1; ii<10;ii++){
+      state[i][ii] = {blockName = 'wall', fillId=39};
+    }
+    state[i][0] = {blockName = 'character', fillId=37};
+  }
+  return state;
+}
+
+function getPlayerView(worldState, playerPos){
+  const width = 5;
+  const height = 5;
+  const emptySquare = {blockName = 'empty', fillId = 40};
+  const x = playerPos['x'];
+  const y = playerPos['y'];
+  var playerView = {};
+
+  var i,ii,x_i,y_ii;
+  for (i=0; i<2*width;i++){
+    x_i = x+i-width;
+    playerView[i] = {};
+    for (ii=0; ii<2*height;ii++){
+      y_ii = y+ii-height;
+      if (x_i in worldState){ 
+        if (y_ii in worldState[x_i]){
+          playerView[i][ii] = worldState[x_i][y_ii];
+        } else {
+          playerView[i][ii] = emptySquare;
+        }
+      } else {
+      playerView[i][ii] = emptySquare;
+      }
+    }
+  }
+  return playerView;
 }
