@@ -101,12 +101,14 @@ function paintGame(state) {
   const gridwidth = state.gridwidth;
   const gridheight = state.gridheight;
   const size = canvas.width / gridwidth;
-  console.log(gridwidth);
-  console.log(gridheight);
+  console.log(11 < gridwidth);
+  console.log(1 < gridwidth);
+  console.log(playerNumber);
+  console.log(state['clients'][1]['playerView']);
   var i,ii; 
   for (i = 0; i < gridwidth ; i++){
     for (ii = 0; ii < gridheight ; ii++){
-      paintSquare(i, ii, size, state['clients'][playerNumber]['player_view'][i][ii]['fillId'])
+      paintSquare(i, ii, size, state['clients'][playerNumber]['playerView'][i][ii]['fillId'])
     }
   }
 }
