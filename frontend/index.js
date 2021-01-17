@@ -115,20 +115,21 @@ function paintSquare(posHorz, posVert, size, fillId) {
   var color = 'black';
   
   switch (fillId) {
-    case 37: { //
+    case '37': { //
       color = 'red';
     }
-    case 38: { // 
+    case '38': { // 
       color = 'blue';
     }
-    case 39: { // 
+    case '39': { // 
       color = 'green';
     }
-    case 40: { // up
+    case '40': { // up
       color = 'white';
     }
   }
 
+  console.log(color,posHorz,posVert);
   ctx.fillStyle = color;
   ctx.fillRect(posHorz * size, posVert * size, size, size);
 }

@@ -39,6 +39,7 @@ function gameLoop(state) {
   // else return false
   
   if (!state) {
+    console.log('failed to receive gamestate');
     return;
   }
   
