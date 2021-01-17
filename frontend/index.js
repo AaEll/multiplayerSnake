@@ -39,6 +39,7 @@ function joinGame() {
 }
 
 function startGame() {
+  console.log('start-game!');
   const code = gameCodeInput.value;
   socket.emit('startGame', code);
   init();
@@ -88,13 +89,12 @@ function paintLobby(payload) {
     text_vert_pos = text_vert_pos + 40;
     canvas_text = "user: "+String(player_idx);
     ctx.strokeText(canvas_text, text_hor_pos, text_vert_pos); 
-  }  
-  
+  } 
 }
 
 
 function paintGame(state) {
-  
+  console.log('game-state-updated');
   ctx.fillStyle = BG_COLOUR;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   
@@ -108,7 +108,6 @@ function paintGame(state) {
       paintSquare(i, ii, size, state['clients'][playerNumber]['player_view'][i][ii]['fillId'])
     }
   }
-  
 }
 
 function paintSquare(posHorz, posVert, size, fillId) {
