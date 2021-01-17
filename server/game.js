@@ -88,9 +88,9 @@ function initWorld(){
   for (i=0 ; i< 10; i++){
     state[i] = {};
     for (ii = 1; ii<10;ii++){
-      state[i][ii] = {blockName = 'wall', fillId=39};
+      state[i][ii] = {blockName : 'wall', fillId:39};
     }
-    state[i][0] = {blockName = 'character', fillId=37};
+    state[i][0] = {blockName : 'character', fillId:37};
   }
   return state;
 }
@@ -98,7 +98,7 @@ function initWorld(){
 function getPlayerView(worldState, playerPos){
   const width = 5;
   const height = 5;
-  const emptySquare = {blockName = 'empty', fillId = 40};
+  const emptySquare = {blockName : 'empty', fillId : 40};
   const x = playerPos['x'];
   const y = playerPos['y'];
   var playerView = {};
