@@ -51,7 +51,6 @@ io.on('connection', client => {
   
   function handleStartGame(payload) {
     const roomName = payload['room_code'];
-    io.sockets.emit('testEvent',roomName);
     const room = io.sockets.adapter.rooms[roomName];
     let allUsers = false;
     let numClients = 0;
@@ -59,7 +58,7 @@ io.on('connection', client => {
     if (room) {
       allUsers = room.sockets;
     }
-    
+    io.sockets.emit('testEvent', allUsers);
     if (allUsers) {
       numClients = Object.keys(allUsers).length;
       state[roomName] = initGame(numClients);
