@@ -101,7 +101,8 @@ function paintGame(state) {
   const gridwidth = state.gridwidth;
   const gridheight = state.gridheight;
   const size = canvas.width / gridwidth;
-  
+  console.log(gridwidth);
+  console.log(gridheight);
   var i,ii; 
   for (i = 0; i < gridwidth ; i++){
     for (ii = 0; ii < gridheight ; ii++){
