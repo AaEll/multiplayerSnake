@@ -41,7 +41,7 @@ function joinGame() {
 function startGame() {
   console.log('start-game!');
   const code = gameCodeInput.value;
-  socket.emit('startGame', code);
+  socket.emit('startGame', {room_code : code});
   init();
 }
 
