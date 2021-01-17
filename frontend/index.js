@@ -167,6 +167,7 @@ function handleGameOver(data) {
 
 function handleGameCode(gameCode) {
   gameCodeDisplay.innerText = gameCode;
+  gameCodeInput.value = gameCode;
 }
 
 function handleUnknownCode() {

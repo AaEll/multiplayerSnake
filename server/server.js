@@ -43,6 +43,7 @@ io.on('connection', client => {
     //io.sockets.in(roomName).emit('testEvent', "message : 1");
     
     client.emit('init', numClients);
+    client.emit('gameCode',roomName);
     io.sockets.in(roomName).emit('updatePlayers', Object.keys(allUsers));
     
     //startGameInterval(roomName);
