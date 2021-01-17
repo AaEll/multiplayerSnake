@@ -85,11 +85,12 @@ io.on('connection', client => {
       console.error(e);
       return;
     }
-
+    /*
     const action = updateActionQueued(keyCode,state[roomName].players[client.number - 1].action);
     if (action) {
       state[roomName].players[client.number - 1].action = action;
     }
+    */
   }
 });
 
