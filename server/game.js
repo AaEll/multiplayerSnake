@@ -15,7 +15,7 @@ function initGame(numClients) {
 
 function createGameState(numClients) {
   
-  var state = {clients : {} , world : {}};
+  var state = {clients : {} , world : {} , gridwidth : GRID_SIZE, gridheight : GRID_SIZE};
   
   state['world'] = initWorld();
    
@@ -87,9 +87,9 @@ function initWorld(){
   var state = {};
   
   var i,ii;
-  for (i=0 ; i< 10; i++){
+  for (i=0 ; i< GRID_SIZE; i++){
     state[i] = {};
-    for (ii = 1; ii<10;ii++){
+    for (ii = 1; ii<GRID_SIZE;ii++){
       state[i][ii] = {blockName : 'wall', fillId:39};
     }
     state[i][0] = {blockName : 'character', fillId:37};
@@ -98,8 +98,8 @@ function initWorld(){
 }
 
 function getPlayerView(worldState, playerPos){
-  const width = 5;
-  const height = 5;
+  const width = Math.floor(GRID_SIZE/2);
+  const height = Math.floor(GRID_SIZE/2);
   const emptySquare = {blockName : 'empty', fillId : 40};
   const x = playerPos['x'];
   const y = playerPos['y'];
